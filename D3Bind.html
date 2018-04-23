@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>D3Bind</title> 
+        <script type="text/javascript" src="jq/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="d3/d3.js"></script>
+        <script type="text/javascript">
+            $(document).ready( () => {
+                let str = "China";
+                let dataset = ["I like dog","I like cat","I like snake"];
+
+                let body = d3.select("body");
+                let p = body.selectAll("p");
+
+                // p.datum(str);
+                // p.text((d,i) => {
+                //     return "第" + i + "个元素绑定的数据是 " + d;
+                // })
+                p.data(dataset).text((d, i) => {
+                    return d;
+                })
+            })
+        </script>
+    </head> 
+    <body> 
+        <p>Apple</p>
+        <p>pear</p>
+        <p>Banana</p>
+    </body> 
+</html>
