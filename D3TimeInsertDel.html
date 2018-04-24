@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>HelloWorld</title> 
+        <script type="text/javascript" src="jq/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="d3/d3.js"></script>
+        <script type="text/javascript">
+            $(document).ready(() => {
+                let p1 = d3.select("body").select("p");
+                let p2 = d3.select("#p2");
+                let pEnd = d3.selectAll(".pEnd");
+                let body = d3.select("body");
+                p1.style("color","red");
+                p2.style("color","blue");
+                pEnd.style("color","yellow");
+                body.append("p").text("append p element");
+                body.insert("p","#p2").text("insert p element");
+                body.select("#p2").remove();
+            })
+        </script>
+    </head> 
+    <body> 
+        <p>Apple</p>
+        <p id="p2">Pear</p>
+        <p class="pEnd">Banana</p>
+        <p class="pEnd">Tomato</p>
+    </body> 
+</html>
