@@ -65,6 +65,16 @@
                                     return 0;
                                 })
                                 .attr("fill","red")
+                                .on("mouseover",(d,i) => {
+                                    d3.select(this)
+                                        .attr("fill","red");
+                                })
+                                .on("mouseout",(d,i) => {
+                                    d3.select(this)
+                                        .transition()
+                                        .duration(500)
+                                        .attr("fill","steelblue");
+                                })
                                 .transition()
                                 .delay(function(d,i){
                                     return i * 200;
