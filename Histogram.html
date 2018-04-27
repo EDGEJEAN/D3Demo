@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>Histogram</title> 
+        <script type="text/javascript" src="jq/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="d3/d3.js"></script>
+        <script type="text/javascript">
+            $(document).ready( () => {
+                //定于画布的间距
+                let padding = {left:20,right:20,top:20,bottom:20};
+                //定义储存的画布大小
+                let width = $(".d1").width() - padding.left - padding.right;
+                let height = $(".d1").height() - padding.top - padding.bottom;
+
+                //在指定class的标签中创建SVG画布
+                let svg = d3.select(".d1")
+                            .append("div")
+                            .style("width", width+"px")
+                            .style("height", height+"px")
+                            .style("margin-top", padding.top+"px")
+                            .style("margin-right",padding.right+"px")
+                            .style("margin-bottom",padding.bottom+"px")
+                            .style("margin-left",padding.left+"px")
+                            .append("svg")
+                            .style("width", "100%")
+                            .style("height", "100%");
+            })
+        </script>
+        <style type="text/css">
+            .d1{
+                background:antiquewhite;
+                width: 400px;
+                height: 400px;
+            }
+        </style>
+    </head> 
+    <body>
+        <div class="d1">
+        </div>
+    </body> 
+</html>
