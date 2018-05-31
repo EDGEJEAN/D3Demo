@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <meta charset="utf-8"> 
+        <title>D3Bind</title> 
+        <link rel="stylesheet" type="text/css" href="dc.js-3.0.2/dc.css"/>
+    </head> 
+    <body> 
+        <div class="row">
+            <div id="monthly-volume-chart">
+            </div>
+            <p class="muted pull-right" style="margin-right: 15px;">select a time range to zoom in</p>
+        </div>
+
+
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script type="text/javascript" src="crossfilter-master/crossfilter.min.js"></script>
+        <script type="text/javascript" src="jq/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" src="dc.js-3.0.2/dc.js"></script>
+        <script type="text/javascript" src="js/colorbrewer.js"></script>
+
+        <script type="text/javascript">
+            var volumeChart = dc.barChart('#monthly-volume-chart');
+            d3.csv('https://dc-js.github.io/dc.js/ndx.csv').then((data) => {
+                var dateFormatSpecifier = '%m/%d/%Y';
+                var dateFormat = d3.timeFormat(dateFormatSpecifier);
+                var dateFormatParser = d3.timeParse(dateFormatSpecifier);
+                var numberFormat = d3.format('.2f');
+                data.forEach(function (d) {
+                    d.dd = dateFormatParser(d.date);
+                    d.month = d3.timeMonth(d.dd); // pre-calculate month for better performance
+                    d.close = +d.close; // coerce to number
+                    d.open = +d.open;
+                });
+                var ndx = crossfilter(data);
+                var all = ndx.groupAll();
+                var moveMonths = ndx.dimension(function (d) {
+                    return d.month;
+                });
+                var volumeByMonthGroup = moveMonths.group().reduceSum(function (d) {
+                    return d.volume / 500000;
+                });
+                volumeChart.width(990) /* dc.barChart('#monthly-volume-chart', 'chartGroup'); */
+                .height(40)
+                .margins({top: 0, right: 50, bottom: 20, left: 40})
+                .dimension(moveMonths)
+                .group(volumeByMonthGroup)
+                .centerBar(true)
+                .gap(1)
+                .x(d3.scaleTime().domain([new Date(1985, 0, 1), new Date(2012, 11, 31)]))
+                .round(d3.timeMonth.round)
+                .alwaysUseRounding(true)
+                .xUnits(d3.timeMonths);
+                dc.renderAll();
+            })
+            // let flights = d3.csv('https://dc-js.github.io/dc.js/ndx.csv')
+            // console.log(flights);
+            // let flight = crossfilter(flights);
+            // console.log(flight);
+            // let hour = flight.dimension((d) => d.date.getHours() + d.date.getMinutes() / 60)
+            // let hours = hour.group(Math.floor);
+
+            // // console.log(hours.top(3))
+            // let hourChart = dc.barChart('#hour-chart')
+            // hourChart
+            // .width(350)
+            // .height(150)
+            // .dimension(hour)
+            // .group(hours)
+            // .x(d3.scaleLinear()
+            //     .domain([0, 24])
+            //     .rangeRound([0, 10 * 24]))
+            // .controlsUseVisibility(true)
+        </script>
+    </body> 
+</html>
